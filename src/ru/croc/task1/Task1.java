@@ -47,7 +47,8 @@ public class Task1 {
                 P * (P - a) * (P - b) * (P - c)
         );
 
-        System.out.println("Площадь треугольника: " + String.format("%.1f", S));
+        String finalOutput = "Площадь треугольника: " + String.format("%.1f", S);
+        System.out.println(finalOutput);
     }
 
     public static boolean isExistTriangle(double a, double b, double c) {
