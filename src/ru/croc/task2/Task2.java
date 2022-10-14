@@ -1,9 +1,8 @@
 package ru.croc.task2;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
 
-public class Main {
+public class Task2 {
 
     //  Я исходил из примера вызова программа, и поэтому аргумент именно args[0]
 //  Однако также можно реализовать с помощью ввода данных с клавиатуры
