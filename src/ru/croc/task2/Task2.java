@@ -1,15 +1,14 @@
 package ru.croc.task2;
 
 import java.math.BigDecimal;
+import java.util.Scanner;
 
 public class Task2 {
 
-    //  Я исходил из примера вызова программа, и поэтому аргумент именно args[0]
-//  Однако также можно реализовать с помощью ввода данных с клавиатуры
     public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        String bytes = scanner.nextLine();
-        BigDecimal bigDecimal = new BigDecimal(args[0]);
+        Scanner scanner = new Scanner(System.in);
+        String bytes = scanner.nextLine();
+        BigDecimal bigDecimal = new BigDecimal(bytes);
 
         printBytes(bigDecimal);
     }
