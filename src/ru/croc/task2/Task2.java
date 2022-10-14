@@ -31,8 +31,8 @@ public class Task2 {
         }
 
         double someValue = newNumber.doubleValue();
-        String finalNumber = String.format("%.1f", someValue);
-        System.out.println(Double.parseDouble(finalNumber) + " " + degreeByte[count]);
+        String finalOutput = String.format("%.1f", someValue) + " " + degreeByte[count];
+        System.out.println(finalOutput);
     }
 }
 
