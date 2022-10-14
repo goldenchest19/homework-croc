@@ -40,15 +40,14 @@ public class Task1 {
 
         if (!isExistTriangle(a, b, c)) {
             System.out.println("Треугольник не существует");
-        } else {
-            double P = (a + b + c) / 2;
-            double S = Math.sqrt(
-              P * (P - a) * (P - b) * (P - c)
-            );
-
-            String finalArea = String.format("%.2f", S);
-            System.out.println("Площадь треугольника: " +  Double.parseDouble(finalArea));
+            return;
         }
+        double P = (a + b + c) / 2;
+        double S = Math.sqrt(
+                P * (P - a) * (P - b) * (P - c)
+        );
+
+        System.out.println("Площадь треугольника: " + String.format("%.1f", S));
     }
 
     public static boolean isExistTriangle(double a, double b, double c) {
@@ -62,7 +61,7 @@ public class Task1 {
                             (firstPoint.y - secondPoint.y) * (firstPoint.y - secondPoint.y)
             );
         } else {
-            System.out.println("Введены некоректные точки!");
+            System.out.println("Введены некорректные точки!");
             return 0;
         }
     }
