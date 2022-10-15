@@ -25,13 +25,12 @@ public class Task2 {
         BigDecimal newNumber = number;
         BigDecimal checkingNumber = new BigDecimal(1024);
 
-        while (newNumber.compareTo(checkingNumber) == 1 || newNumber.compareTo(checkingNumber) == 0) {
+        while ((newNumber.compareTo(checkingNumber) == 1 || newNumber.compareTo(checkingNumber) == 0) & count < 5) {
             count++;
             newNumber = newNumber.divide(checkingNumber);
         }
 
-        double someValue = newNumber.doubleValue();
-        String finalOutput = String.format("%.1f", someValue) + " " + degreeByte[count];
+        String finalOutput = String.format("%.1f", newNumber) + " " + degreeByte[count];
         System.out.println(finalOutput);
     }
 }
