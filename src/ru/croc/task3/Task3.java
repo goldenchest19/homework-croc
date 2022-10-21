@@ -16,9 +16,15 @@ public class Task3 {
     public static int[] createMassive(String line) {
         String[] newLine = line.split(" ");
         int array[] = new int[newLine.length];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = Integer.parseInt(newLine[i]);
+        try {
+            for (int i = 0; i < array.length; i++) {
+                array[i] = Integer.parseInt(newLine[i]);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Введены некорректные данные");
+            return new int[1];
         }
+
         return array;
     }
 
