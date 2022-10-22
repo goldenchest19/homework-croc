@@ -8,13 +8,12 @@ import java.util.Scanner;
 public class Task4 {
     static boolean flag = false;
 
-    public static void main(String[] args) throws IOException {
-        String text = """
+    public static void main(String[] args) {
+        String source = """
                 /*
                  * My first ever program in Java! // sddsdfd
                  */
                 class Hello { // class body starts here
-
                   /* main method */
                   public /*   */static void main(String[] args/* we put command line arguments here*/) {
                     // this line prints my first greeting to the screen
@@ -24,10 +23,11 @@ public class Task4 {
                  // to be continued...
                 """;
 
-        System.out.println(readStringAndDeleteComment(text));
+        String noComments = removeJavaComments(source);
+        System.out.println(noComments);
     }
 
-    public static String readStringAndDeleteComment(String text) {
+    public static String removeJavaComments(String text) {
         String finalText = """
                       """;
         try(Scanner scanner = new Scanner(text)) {
@@ -35,15 +35,15 @@ public class Task4 {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 
-                if (!deleteComment(line).isEmpty()){
-                    finalText += deleteComment(line) + "\n";
+                if (!refactorLine(line).isEmpty()){
+                    finalText += refactorLine(line) + "\n";
                 }
             }
         }
         return finalText;
     }
 
-    public static String deleteComment(String lineCode) {
+    public static String refactorLine(String lineCode) {
         String line = lineCode;
 
         while(line.contains("/*") && line.contains("*/")) {
