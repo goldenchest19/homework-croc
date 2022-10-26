@@ -6,22 +6,23 @@ import java.util.Scanner;
 // second type comment - /*
 
 public class Task4 {
-    static boolean flag = false;
+     static boolean flag = false;
 
     public static void main(String[] args) {
         String source = """
-                /*
+                /*/*       hj      
                  * My first ever program in Java! // sddsdfd
-                 */
-                class Hello { // class body starts here
-                  /* main method */
+                 *///// 
+                 class Hello { // class body starts here
+                  /* main method */ //gug
                   public /*   */static void main(String[] args/* we put command line arguments here*/) {
                     // this line prints my first greeting to the screen
                     System.out.println("Hi!"); // :)
-                  } /* */ /* */
+                  } /**/ /* */ /////// 1412141343gbdfd
                 } // the end
                  // to be continued...
                 """;
+
 
         String noComments = removeJavaComments(source);
         System.out.println(noComments);
@@ -46,13 +47,14 @@ public class Task4 {
     public static String refactorLine(String lineCode) {
         String line = lineCode;
 
-        while(line.contains("/*") && line.contains("*/")) {
+        while(line.contains("/*") && line.contains("*/") && !line.contains("/*/")) {
             int startComment = line.indexOf("/*");
             int endComment = line.indexOf("*/");
 
             String delLine = line.substring(startComment, endComment + 2);
             line = line.replace(delLine, "");
-        } if (line.contains("/*")) {
+        }
+        if (line.contains("/*")) {
             line = "";
             flag = true;
         } else if (!line.contains("*/") && flag) {
@@ -64,7 +66,8 @@ public class Task4 {
             String delLine = line.substring(startComment, endComment + 2);
             line = line.replace(delLine, "");
             flag=false;
-        } else if (line.contains("//")) {
+        }
+        if (line.contains("//")) {
             int startComment = line.indexOf("//");
             int len = line.length();
 
