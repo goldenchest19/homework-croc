@@ -16,10 +16,10 @@ public class Task4 {
                   /* main method */ //gug
                   public /*   */static void main(String[] args/* we put command line arguments here*/) {
                     // this line prints my first greeting to the screen
-                    System.out.println("Hi!"); /* ываыаывавыа
+                    System.out.println("Hi!"); /* ываыаывавыаdd
                     вывааыв se
                     */
-                  } /**/ /* */ /////// 1412141343gbdfdп    
+                  } /**/ /* */ /////// 1412141343gbdfdп аыы
                 } // the end
                  // to be continued...42
                 """;
