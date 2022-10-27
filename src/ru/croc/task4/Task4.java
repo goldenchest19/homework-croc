@@ -1,6 +1,5 @@
 package ru.croc.task4;
 
-import java.io.IOException;
 import java.util.Scanner;
 // first type comment - //
 // second type comment - /*
@@ -10,17 +9,19 @@ public class Task4 {
 
     public static void main(String[] args) {
         String source = """
-                /*/*       hj      
+                /*/*       hj      ав
                  * My first ever program in Java! // sddsdfd
                  *///// 
                  class Hello { // class body starts here
                   /* main method */ //gug
                   public /*   */static void main(String[] args/* we put command line arguments here*/) {
                     // this line prints my first greeting to the screen
-                    System.out.println("Hi!"); // :)
-                  } /**/ /* */ /////// 1412141343gbdfd
+                    System.out.println("Hi!"); /* ываыаывавыа
+                    вывааыв se
+                    */
+                  } /**/ /* */ /////// 1412141343gbdfdп    
                 } // the end
-                 // to be continued...
+                 // to be continued...42
                 """;
 
 
@@ -55,7 +56,11 @@ public class Task4 {
             line = line.replace(delLine, "");
         }
         if (line.contains("/*")) {
-            line = "";
+            int startComment = line.indexOf("/*");
+            int len = line.length();
+
+            String delLine = line.substring(startComment, len);
+            line = line.replace(delLine, "");
             flag = true;
         } else if (!line.contains("*/") && flag) {
             line = "";
