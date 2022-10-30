@@ -11,17 +11,17 @@ public class Annotation {
 
     @Override
     public String toString() {
-         if (figure instanceof Rectangle) {
-             String finalString = String.format("R (<%s>, <%s>), (<%s>, <%s>): %s",
-                     figure.getxCoord(), figure.getyCoord(),
-                     ((Rectangle) figure).getxCoord2(), ((Rectangle) figure).getyCoord2(), title
-             );
-             return finalString;
-         }
+        if (figure instanceof Rectangle) {
+            String finalString = String.format("R (<%s>, <%s>), (<%s>, <%s>): %s",
+                    figure.getxCoord(), figure.getyCoord(),
+                    ((Rectangle) figure).getxCoord2(), ((Rectangle) figure).getyCoord2(), title
+            );
+            return finalString;
+        }
         String finalString = String.format("C (<%s>, <%s>), %s: %s",
                 figure.getxCoord(), figure.getyCoord(),
                 ((Circle) figure).getRadius(), title
         );
-         return finalString;
+        return finalString;
     }
 }
