@@ -1,6 +1,8 @@
 package ru.croc.task5;
 
-public class Rectangle extends Figure{
+import ru.croc.task6.Movable;
+
+public class Rectangle extends Figure implements Movable {
     private double xCoord2;
     private double yCoord2;
 
@@ -36,5 +38,12 @@ public class Rectangle extends Figure{
             throw new Exception("first yCoord should be less then yCoord2");
         }
         this.yCoord2 = yCoord2;
+    }
+
+    @Override
+    public void move(int dx, int dy) {
+        super.move(dx, dy);
+        this.xCoord2 = xCoord2 + dx;
+        this.yCoord2 = yCoord2 + dy;
     }
 }

@@ -1,6 +1,8 @@
 package ru.croc.task5;
 
-public class Circle extends Figure {
+import ru.croc.task6.Movable;
+
+public class Circle extends Figure implements Movable {
     private double radius;
 
     public Circle(double xCoord, double yCoord, double radius) {

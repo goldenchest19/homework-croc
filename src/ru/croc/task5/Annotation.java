@@ -24,4 +24,12 @@ public class Annotation {
         );
         return finalString;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Figure getFigure() {
+        return figure;
+    }
 }
