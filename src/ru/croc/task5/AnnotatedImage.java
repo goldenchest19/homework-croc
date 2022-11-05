@@ -23,12 +23,7 @@ public class AnnotatedImage {
         for (int i = 0; i < annotations.length; i++) {
             Annotation annotation = annotations[i];
             Figure figure = annotation.getFigure();
-            if (figure instanceof Rectangle) {
-                if (figure.getxCoord() == x && figure.getyCoord() == y ||
-                        ((Rectangle) figure).getxCoord2() == x && ((Rectangle) figure).getyCoord2() == y) {
-                    return annotation;
-                }
-            } if (figure.getxCoord() == x && figure.getyCoord() == y) {
+            if (figure.searchPoint(x, y)) {
                 return annotation;
             }
         }
@@ -45,7 +40,5 @@ public class AnnotatedImage {
         }
         return annotation;
     }
-
-
 }
 

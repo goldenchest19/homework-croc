@@ -7,15 +7,15 @@ public class Task6 {
     public static void main(String[] args) throws Exception {
 
         Annotation annotation1 = new Annotation("Box",
-                new Rectangle(100, 120, 150, 200)
+                new Rectangle(100, 100, 200, 200)
         );
 
         Annotation annotation2 = new Annotation("Tree",
-                new Circle(100, 100, 10)
+                new Circle(1, 1, 3)
         );
         AnnotatedImage annotatedImage = new AnnotatedImage("d", annotation1, annotation2);
 
-        System.out.println(annotatedImage.findByPoint(100, 120));
+        System.out.println(annotatedImage.findByPoint(2, 2));
         System.out.println(annotatedImage.findByLabel("Tr"));
 
         Figure figure1 = annotation1.getFigure();
