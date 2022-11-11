@@ -7,11 +7,11 @@ import java.util.Scanner;
 public class Task8 {
 
     public static void main(String[] args) throws IOException {
-        String path1 = args[0];
-        readFile(path1);
+        String path = args[0];
+        System.out.println(readFile(path));
     }
 
-    public static void readFile(String path) throws IOException {
+    public static int readFile(String path) throws IOException {
         int count = 0;
         File myObj = new File(path);
 
@@ -21,6 +21,6 @@ public class Task8 {
                 count++;
             }
         }
-        System.out.println(count);
+        return count;
     }
 }
