@@ -16,19 +16,22 @@ public class Task9 {
 
     public static String improvePath(String path) {
         String[] str = path.split("/./|/");
-        // Цикл работает до тех пор, пока находит совпадения до того, как дойдёт до конца
+//        in this cycle, the condition is checked for the transition
+//        to the parent directory from the current
+//        one. when the condition is met, we remove two
+//        array elements using array concatenation,
+//        the counter returns to the previous position in line 30
         for (int i = 0; i < str.length - 1; i++) {
-            //проверка на переход в родительскую директорию из текущей
             if (!str[i].equals("..") && str[i + 1].equals("..")) {
-                // Убираем элементы массива, методом склеивания двух подмассивов
-                str = Stream.concat(Arrays.stream(Arrays.copyOfRange(str, 0, i)),
-                                Arrays.stream(Arrays.copyOfRange(str, i + 2, str.length)))
+                str = Stream.concat(
+                                Arrays.stream(
+                                        Arrays.copyOfRange(str, 0, i)),
+                                Arrays.stream(
+                                        Arrays.copyOfRange(str, i + 2, str.length)))
                         .toArray(String[]::new);
-                // возвращаем цикл в исходное состояние
                 i = -1;
             }
         }
-        //преобразовываем массив обратно по правилам формирования адресации
         String result = "";
         if (!Objects.equals(str[0], "..")) {
             result = "./";
