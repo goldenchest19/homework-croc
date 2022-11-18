@@ -5,10 +5,9 @@ import java.time.LocalTime;
 
 public class Lot {
 
-    private float currentPrice;
-    private String name;
-    private LocalDateTime finalTime;
-    private boolean flag = false;
+    private volatile float currentPrice;
+    private volatile String name;
+    private final LocalDateTime finalTime;
 
     public Lot(float currentPrice, LocalDateTime finalTime) {
         this.currentPrice = currentPrice;
@@ -20,16 +19,17 @@ public class Lot {
         if ((newPrice > currentPrice) && (time.isBefore(LocalTime.from(finalTime)))) {
             currentPrice = newPrice;
             name = newName;
-        } if (time.isAfter(LocalTime.from(finalTime))) {
-            flag = true;
         }
+    }
+
+    public boolean checkAucExpires() {
+        if (LocalTime.now().isAfter(LocalTime.from(finalTime))) {
+            return true;
+        }
+        return false;
     }
 
     public String getName() {
         return name;
-    }
-
-    public boolean isFlag() {
-        return flag;
     }
 }

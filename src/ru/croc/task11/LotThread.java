@@ -16,7 +16,7 @@ public class LotThread extends Thread {
     public void run() {
         while (true) {
             lot.placeBet(bet, name);
-            if (lot.isFlag()) {
+            if (lot.checkAucExpires()) {
                 System.out.println(lot.getName());
                 break;
             }

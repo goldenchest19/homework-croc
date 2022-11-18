@@ -7,7 +7,7 @@ import java.util.List;
 public class Task11 {
 
     public static void main(String[] args) throws InterruptedException {
-        Lot lot = new Lot(100, LocalDateTime.of(2022, 11, 18, 1, 7,20));
+        Lot lot = new Lot(100, LocalDateTime.of(2022, 11, 19, 0, 28,50));
         List<LotThread> list = new ArrayList<>();
         list.add(new LotThread(lot,  "Dima1", 150));
         list.add(new LotThread(lot,  "Dima2", 1250));
