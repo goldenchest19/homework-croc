@@ -1,6 +1,6 @@
 # Project exclude paths
 /out/
-/ru/croc/study/
+/src/ru/croc/study/
 .idea/
 *.iml
 *.iws
