@@ -55,8 +55,9 @@ public class SolutionPool implements Callable<String> {
 
         String password = "password doesn't exists";
         for (Future<String> future : list) {
-            if (future != null) {
-                password = future.get();
+            String futureGet = future.get();
+            if (!futureGet.equals("")) {
+                password = futureGet;
                 break;
             }
         }
