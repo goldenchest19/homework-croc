@@ -1,0 +1,30 @@
+package ru.croc.task10;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Task10 {
+//"abcdefghijklmnopqrstuvwxyz
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        int threadsNumber = 4;
+        String hash1 = "40682260CC011947FC2D0B1A927138C5";
+        String hash2 = "74E2DFE227A0400F3A148125CA532B25"; // aaaaabb
+        String hash3 = "E09EDC9997939CA96ACB73E8F0C5CAEC"; // evhkqpm
+
+//        Thread[] threads = new Solution[threadNumbers];
+//        for (int i = 0; i < threadNumbers; i++) {
+//            new Thread(new Solution(i, threadNumbers, hash2)).start();
+//
+////            threads[i] = new Solution(i, threadNumbers, hash2);
+////            threads[i].start();
+//        }
+
+        String password = SolutionPool.calculatePassword(threadsNumber, hash3);
+        System.out.println(password + " " + hash3);
+    }
+}
