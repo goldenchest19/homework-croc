@@ -18,7 +18,6 @@ public class SolutionPool implements Callable<String> {
     private static long start;
     private static long end;
 
-
     public SolutionPool(int currentThread, int threadNumbers, String hash) {
         this.currentThread = currentThread;
         this.threadNumbers = threadNumbers;
@@ -31,37 +30,37 @@ public class SolutionPool implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-        String password = "";
         for (long i = start; i < end; i++) {
-            password = str((int) i).toLowerCase();
-//            System.out.println(i + " " + password);
-//            Thread.sleep(10L);
+            String password = str((int) i).toLowerCase();
             if (hashPassword(password).equals(hash)) {
-//                System.out.println(password + hash);
                 return password;
             }
         }
-        return password;
+        return "";
     }
 
-    public static String calculatePassword(int threadsNumbers, String someStringHash) throws InterruptedException, ExecutionException {
+    public static String calculatePassword(int threadsNumbers, String someStringHash)
+            throws InterruptedException, ExecutionException {
         ExecutorService pool = Executors.newFixedThreadPool(threadsNumbers);
-        List<Future<String>> list = new ArrayList<>(threadsNumbers);
+        List<Future<String>> list = new ArrayList<>();
+        String password = "password doesn't exists";
 
         for (int i = 0; i < threadsNumbers; i++) {
             list.add(pool.submit(new SolutionPool(i, threadsNumbers, someStringHash)));
         }
-//        pool.shutdown();
 
-        String password = "password doesn't exists";
-        for (Future<String> future : list) {
-            String futureGet = future.get();
-            if (!futureGet.equals("")) {
-                password = futureGet;
-                break;
+        while (true) {
+            for (Future<String> future : list) {
+                System.out.println("зашел");
+                String futureGet = future.get();
+                if (!futureGet.equals("")) {
+                    pool.shutdown();
+                    password = futureGet;
+                    break;
+                }
             }
+            return password;
         }
-        return password;
     }
 
     static String str(int i) {
