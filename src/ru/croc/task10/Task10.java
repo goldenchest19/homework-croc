@@ -11,7 +11,6 @@ public class Task10 {
         String hash3 = "80B843C20E59F81726E2AE7BE8A02A63"; // evgtyfw
 
 
-        String password = SolutionPool.calculatePassword(threadsNumber, hash3);
-        System.out.println(password + " " + hash3);
+        System.out.println(SolutionPool.calculatePassword(threadsNumber, hash3) + " " + hash3);
     }
 }

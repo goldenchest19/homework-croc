@@ -23,9 +23,7 @@ public class SolutionPool implements Callable<String> {
         this.threadNumbers = threadNumbers;
         this.hash = hash;
         this.start = currentThread == 0 ? begin : begin + (countOperations / threadNumbers) * currentThread;
-        System.out.println(start);
         this.end = currentThread + 1 == threadNumbers ? 8_031_810_176L : begin + (countOperations / threadNumbers) * (currentThread + 1);
-        System.out.println(end);
     }
 
     @Override
@@ -51,7 +49,6 @@ public class SolutionPool implements Callable<String> {
 
         while (true) {
             for (Future<String> future : list) {
-                System.out.println("зашел");
                 String futureGet = future.get();
                 if (!futureGet.equals("")) {
                     pool.shutdown();
