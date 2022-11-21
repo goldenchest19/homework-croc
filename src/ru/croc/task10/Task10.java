@@ -1,12 +1,6 @@
 package ru.croc.task10;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Task10 {
 //"abcdefghijklmnopqrstuvwxyz
@@ -24,7 +18,7 @@ public class Task10 {
 ////            threads[i].start();
 //        }
 
-        String password = SolutionPool.calculatePassword(threadsNumber, hash3);
-        System.out.println(password + " " + hash3);
+        String password = SolutionPool.calculatePassword(threadsNumber, hash2);
+        System.out.println(password + " " + hash2);
     }
 }
