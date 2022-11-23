@@ -33,16 +33,29 @@ public class ReadData {
      * @param arrayList here is a list of lists in which you need to record user views
      * @throws FileNotFoundException
      */
-    public static void readViewingHistory(ArrayList<ArrayList<Integer>> arrayList) throws FileNotFoundException {
+    public static void readViewingHistoryWithoutDuplicate(ArrayList<ArrayList<Integer>> arrayList) throws FileNotFoundException {
         File myObj = new File(pathViewingHistory);
 
         try (Scanner scanner = new Scanner(myObj)) {
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
-                putValue(line, arrayList);
+                putValueWithoutDuplicate(line, arrayList);
             }
         }
     }
+
+    public static void readViewingHistoryWithDuplicate(ArrayList<ArrayList<Integer>> arrayList) throws FileNotFoundException {
+        File myObj = new File(pathViewingHistory);
+
+        try (Scanner scanner = new Scanner(myObj)) {
+            while (scanner.hasNext()) {
+                String line = scanner.nextLine();
+                putValueWithDuplicate(line, arrayList);
+            }
+        }
+    }
+
+
 
     // This method helps readAvailableFilms parse data
     private static void putFilmsFromUsers(String line, Map<Integer, String> hashMap) {
@@ -52,7 +65,7 @@ public class ReadData {
     }
 
     // This method helps readViewingHistory parse data
-    private static void putValue(String line, ArrayList<ArrayList<Integer>> arrayList) {
+    private static void putValueWithoutDuplicate(String line, ArrayList<ArrayList<Integer>> arrayList) {
         String[] mas = line.split(",");
         HashSet<Integer> hashSet = new HashSet<>();
         ArrayList<Integer> newArrayList = new ArrayList<>();
@@ -64,6 +77,17 @@ public class ReadData {
         for (Integer integer : hashSet) {
             newArrayList.add(integer);
         }
+        arrayList.add(newArrayList);
+    }
+
+    private static void putValueWithDuplicate(String line, ArrayList<ArrayList<Integer>> arrayList) {
+        String[] mas = line.split(",");
+        ArrayList<Integer> newArrayList = new ArrayList<>();
+
+        for (int i = 0; i < mas.length; i++) {
+            newArrayList.add(Integer.valueOf(mas[i]));
+        }
+
         arrayList.add(newArrayList);
     }
 }

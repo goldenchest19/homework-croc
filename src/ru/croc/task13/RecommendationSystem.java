@@ -7,7 +7,8 @@ import java.util.Map;
 
 public class RecommendationSystem {
     private Map<Integer, String> films = new HashMap<>();
-    private ArrayList<ArrayList<Integer>> viewedMovies = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> viewedMoviesWithoutDuplicate = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> viewedMoviesWithDuplicate = new ArrayList<>();
     private String inputLine;
     private ArrayList<Integer> moviesCurrentUser = new ArrayList<>();
     private Map<Integer, Integer> countFinalFilms = new HashMap<>();
@@ -17,7 +18,8 @@ public class RecommendationSystem {
     public RecommendationSystem(String inputLine) throws IOException {
         this.inputLine = inputLine;
         ReadData.readAvailableFilms(films);
-        ReadData.readViewingHistory(viewedMovies);
+        ReadData.readViewingHistoryWithoutDuplicate(viewedMoviesWithoutDuplicate);
+        ReadData.readViewingHistoryWithDuplicate(viewedMoviesWithDuplicate);
         initialize();
     }
 
@@ -31,8 +33,8 @@ public class RecommendationSystem {
 
     // the main control block that calls the auxiliary methods
     public String searchFilm() {
-        viewedMovies = searchUsers();
-        viewedMovies = deleteViewedMovies();
+        viewedMoviesWithDuplicate = searchUsers();
+        viewedMoviesWithDuplicate = deleteViewedMovies();
         setCountFinalFilms();
         searchMostPopularFilm();
         return films.get(searchMostPopularFilm());
@@ -45,19 +47,21 @@ public class RecommendationSystem {
         int count = 0;
         ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
 
-        for (int i = 0; i < viewedMovies.size(); i++) {
+        for (int i = 0; i < viewedMoviesWithoutDuplicate.size(); i++) {
 
-            for (int j = 0; j < viewedMovies.get(i).size(); j++) {
+            for (int j = 0; j < viewedMoviesWithoutDuplicate.get(i).size(); j++) {
 
                 for (Integer filmCurrentUser : moviesCurrentUser) {
 
-                    if (viewedMovies.get(i).get(j) == filmCurrentUser) {
+                    if (viewedMoviesWithoutDuplicate.get(i).get(j) == filmCurrentUser) {
                         count++;
+                        break;
                     }
                 }
             }
-            if (count >= (viewedMovies.get(i).size() + 1) / 2) {
-                arrayList.add(viewedMovies.get(i));
+//            if (count >= (viewedMoviesWithoutDuplicate.get(i).size() + 1) / 2) {
+            if (count >= (moviesCurrentUser.size() + 1) / 2) {
+                arrayList.add(viewedMoviesWithDuplicate.get(i));
             }
             count = 0;
         }
@@ -70,11 +74,11 @@ public class RecommendationSystem {
         ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
         ArrayList<Integer> mas = new ArrayList<>();
 
-        for (int i = 0; i < viewedMovies.size(); i++) {
+        for (int i = 0; i < viewedMoviesWithDuplicate.size(); i++) {
 
-            for (int j = 0; j < viewedMovies.get(i).size(); j++) {
-                if (!moviesCurrentUser.contains(viewedMovies.get(i).get(j))) {
-                    mas.add(viewedMovies.get(i).get(j));
+            for (int j = 0; j < viewedMoviesWithDuplicate.get(i).size(); j++) {
+                if (!moviesCurrentUser.contains(viewedMoviesWithDuplicate.get(i).get(j))) {
+                    mas.add(viewedMoviesWithDuplicate.get(i).get(j));
                 }
             }
             if (mas.size() > 0) {
@@ -101,7 +105,7 @@ public class RecommendationSystem {
 
 
     private void setCountFinalFilms() {
-        for (ArrayList<Integer> viewedMovie : viewedMovies) {
+        for (ArrayList<Integer> viewedMovie : viewedMoviesWithDuplicate) {
             for (Integer film : viewedMovie) {
                 Integer count = countFinalFilms.get(film);
 
