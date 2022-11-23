@@ -12,7 +12,8 @@ public class RecommendationSystem {
     private ArrayList<Integer> moviesCurrentUser = new ArrayList<>();
     private Map<Integer, Integer> countFinalFilms = new HashMap<>();
 
-
+    // when creating an object, the constructor also
+    // initializes two read files, and writes the entered value to the ArrayList.
     public RecommendationSystem(String inputLine) throws IOException {
         this.inputLine = inputLine;
         ReadData.readAvailableFilms(films);
@@ -20,7 +21,7 @@ public class RecommendationSystem {
         initialize();
     }
 
-
+    // This method parse inputLine to ArrayList
     public void initialize() throws IOException {
         String[] array = inputLine.split(",");
         for (int i = 0; i < array.length; i++) {
@@ -28,6 +29,7 @@ public class RecommendationSystem {
         }
     }
 
+    // the main control block that calls the auxiliary methods
     public String searchFilm() {
         viewedMovies = searchUsers();
         viewedMovies = deleteViewedMovies();
@@ -36,7 +38,10 @@ public class RecommendationSystem {
         return films.get(searchMostPopularFilm());
     }
 
-    public ArrayList<ArrayList<Integer>> searchUsers() {
+    // this method implements the first point of the algorithm,
+    // and removes the user who has watched less
+    // than 50 percent of the specified movies
+    private ArrayList<ArrayList<Integer>> searchUsers() {
         int count = 0;
         ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
 
@@ -59,7 +64,9 @@ public class RecommendationSystem {
         return arrayList;
     }
 
-    public ArrayList<ArrayList<Integer>> deleteViewedMovies() {
+    // this method implements the second point of the algorithm,
+    // and delete films, which the specified user has already viewed
+    private ArrayList<ArrayList<Integer>> deleteViewedMovies() {
         ArrayList<ArrayList<Integer>> arrayList = new ArrayList<>();
         ArrayList<Integer> mas = new ArrayList<>();
 
@@ -78,6 +85,8 @@ public class RecommendationSystem {
         return arrayList;
     }
 
+    // this method implements the third point of the algorithm,
+    // we find the most popular movie among all the remaining films
     public Integer searchMostPopularFilm() {
         Integer recommendedMovie = null;
         int max = -1;
@@ -89,6 +98,7 @@ public class RecommendationSystem {
         }
         return recommendedMovie;
     }
+
 
     private void setCountFinalFilms() {
         for (ArrayList<Integer> viewedMovie : viewedMovies) {
@@ -102,21 +112,5 @@ public class RecommendationSystem {
                 countFinalFilms.put(film, count);
             }
         }
-    }
-
-    public Map<Integer, String> getFilms() {
-        return films;
-    }
-
-    public ArrayList<ArrayList<Integer>> getViewedMovies() {
-        return viewedMovies;
-    }
-
-    public ArrayList<Integer> getMoviesCurrentUser() {
-        return moviesCurrentUser;
-    }
-
-    public Map<Integer, Integer> getCountFinalFilms() {
-        return countFinalFilms;
     }
 }
