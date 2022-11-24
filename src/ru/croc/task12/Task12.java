@@ -11,13 +11,16 @@ public class Task12 {
         list.add("я купил банан и киви");
         list.add("роза машина кот собака");
         list.add("мы построили большой дом");
+        list.add("самый ужасный комментарий");
 
         Set<String> set = new HashSet<>();
         set.add("киви");
-        set.add("cобака");
+        set.add("банан");
+        set.add("собака");
         set.add("абрикос");
         set.add("дом");
 
         filter.filterComments(list, set);
+        System.out.println(list);
     }
 }
