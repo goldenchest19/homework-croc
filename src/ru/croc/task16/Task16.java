@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Task16 {
-    private static final String path1 = "/home/kirill/logs";
-
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String path = scanner.nextLine();
