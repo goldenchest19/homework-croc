@@ -14,7 +14,7 @@ public class Task16 {
 
         ReadLog readLog = new ReadLog();
         List<Log> list = readLog.getLogs(path);
-        Collections.sort(list, new LogComparator());
+        list.sort(new LogComparator());
 
         for (Log log : list) {
             System.out.println(log);
