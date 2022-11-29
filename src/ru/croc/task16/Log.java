@@ -9,10 +9,6 @@ public class Log {
         this.log = log;
     }
 
-    public String getLog() {
-        return log;
-    }
-
     public Long getTime() {
         return time;
     }
