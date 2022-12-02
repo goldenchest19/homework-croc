@@ -28,7 +28,7 @@ public class Department {
         return parent;
     }
 
-    public void addChildren(Department department) {
+    public void addChild(Department department) {
         childs.add(department);
     }
 

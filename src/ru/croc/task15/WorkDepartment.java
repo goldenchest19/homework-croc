@@ -37,7 +37,7 @@ public class WorkDepartment {
         if (department.getParent().equals("-")) {
             parentRoot = department;
         } else {
-            tree.get(department.getParent()).addChildren(department);
+            tree.get(department.getParent()).addChild(department);
         }
     }
 }
