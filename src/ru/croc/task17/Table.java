@@ -1,6 +1,7 @@
 package ru.croc.task17;
 
 import java.sql.*;
+import java.util.HashSet;
 import java.util.List;
 
 public class Table {
@@ -8,39 +9,62 @@ public class Table {
     private static final String user = "sa";
     private static final String password = "sa";
 
+    private static final String SQL_INSERT_PRODUCTS = "INSERT INTO PRODUCTS (ARCTICLE, TITLE, PRICE) VALUES (?,?,?)";
+
+
     public static void addDataToDB(List<List<String>> list) throws SQLException, ClassNotFoundException {
 //        createTableProducts();
 //        createTableOrders();
 //        test();
         insertTableProducts();
+//        testProd();
     }
 
-    private static void insertTableProducts() throws ClassNotFoundException, SQLException {
+    private static void testProd() throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
 
-        Statement stmt = null;
-        Connection connection = null;
-        try {
-            connection = DriverManager
-                    .getConnection(connectionUrl, user, password);
-            Class.forName("org.h2.Driver");
-            stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM products");
-            while (rs.next()) {
-                System.out.println(rs.getInt("ID") + " " + rs.getString("ARTICLE"));
+        // open connection as an auto-closeable resource
+        try (Connection connection = DriverManager
+                .getConnection(connectionUrl, user, password)) {
+
+            // create and run statement
+            String sql = "SELECT * FROM PRODUCTS";
+            try (Statement statement = connection.createStatement()) {
+                ResultSet resultSet = statement.executeQuery(sql);
+
+                // print result set to stdout
+                printResultSet(resultSet);
             }
-        } finally {
-            //finally block used to close resources
-            try {
-                if (stmt != null)
-                    connection.close();
-            } catch (SQLException se) {
-            }// do nothing
-            try {
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
+        }
+
+    }
+
+    private static void insertTableProducts(HashSet<List<String>> hashSet) throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
+
+        try (Connection connection = DriverManager
+                .getConnection(connectionUrl, user, password)) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_PRODUCTS)){
+
+                for (List<String> list : hashSet) {
+
+                    for (int i = 0; i < list.size(); i++) {
+
+                    }
+                }
+
+                preparedStatement.setString(1, "T1");
+                preparedStatement.setString(2, "Монитор");
+                preparedStatement.setInt(3, 500);
+
+                int row = preparedStatement.executeUpdate();
+                System.out.println(row);
             }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %sn%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -73,11 +97,11 @@ public class Table {
                     .getConnection(connectionUrl, user, password);
             stmt = connection.createStatement();
             String sql = "CREATE TABLE products " +
-                    "(id INTEGER not NULL, " +
-                    " arcticle VARCHAR(25) NOT NULL, " +
-                    " title VARCHAR(100), " +
-                    " price INTEGER, " +
-                    " PRIMARY KEY ( id ))";
+//                    "(id INTEGER not NULL, " +
+                    " (arcticle VARCHAR(25) NOT NULL UNIQUE , " +
+                    " title VARCHAR(100) UNIQUE , " +
+                    " price INTEGER UNIQUE) ";
+//                    " PRIMARY KEY ( id ))";
             stmt.executeUpdate(sql);
         } finally {
             //finally block used to close resources
@@ -109,7 +133,7 @@ public class Table {
                     " name VARCHAR(50) NOT NULL, " +
                     " arcticle_products VARCHAR(25) NOT NULL)";
             stmt.executeUpdate(sql);
-        }  finally {
+        } finally {
             //finally block used to close resources
             try {
                 if (stmt != null)
