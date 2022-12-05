@@ -8,19 +8,47 @@ public class Table {
     private static final String connectionUrl = "jdbc:h2:/home/kirill/h2/db/test";
     private static final String user = "sa";
     private static final String password = "sa";
-
     private static final String SQL_INSERT_PRODUCTS = "INSERT INTO PRODUCTS (ARCTICLE, TITLE, PRICE) VALUES (?,?,?)";
+    private static final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (ID, NAME, ARCTICLE_PRODUCTS) VALUES (?,?,?)";
 
-
-    public static void addDataToDB(List<List<String>> list) throws SQLException, ClassNotFoundException {
-//        createTableProducts();
-//        createTableOrders();
-//        test();
-        insertTableProducts();
-//        testProd();
+    // управляющий метод
+    public static void addDataToDB(List<List<String>> list, HashSet<List<String>> hashSet) throws SQLException, ClassNotFoundException {
+        createTableProducts();
+        createTableOrders();
+        insertTableProducts(hashSet);
+        printDBProducts();
+        insertTableOrders(list);
+        printDBOrders();
     }
 
-    private static void testProd() throws ClassNotFoundException, SQLException {
+    /**
+     * Метод, который выводит данные из таблицы Products
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    private static void printDBProducts() throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
+
+        try (Connection connection = DriverManager
+                .getConnection(connectionUrl, user, password)) {
+
+            String sql = "SELECT * FROM PRODUCTS";
+            try (Statement statement = connection.createStatement()) {
+                ResultSet resultSet = statement.executeQuery(sql);
+
+                printResultSet(resultSet);
+            }
+        }
+    }
+
+    /**
+     * Метод, который выводит данные из таблицы Orders
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    private static void printDBOrders() throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
 
         // open connection as an auto-closeable resource
@@ -28,7 +56,7 @@ public class Table {
                 .getConnection(connectionUrl, user, password)) {
 
             // create and run statement
-            String sql = "SELECT * FROM PRODUCTS";
+            String sql = "SELECT * FROM ORDERS";
             try (Statement statement = connection.createStatement()) {
                 ResultSet resultSet = statement.executeQuery(sql);
 
@@ -36,30 +64,55 @@ public class Table {
                 printResultSet(resultSet);
             }
         }
-
     }
 
+    /**
+     * вставка данных в таблицу из hashset
+     *
+     * @param hashSet
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     private static void insertTableProducts(HashSet<List<String>> hashSet) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
 
         try (Connection connection = DriverManager
                 .getConnection(connectionUrl, user, password)) {
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_PRODUCTS)){
-
+            try (PreparedStatement preparedStatement =
+                         connection.prepareStatement(SQL_INSERT_PRODUCTS)) {
                 for (List<String> list : hashSet) {
 
-                    for (int i = 0; i < list.size(); i++) {
+                    preparedStatement.setString(1, list.get(0));
+                    preparedStatement.setString(2, list.get(1));
+                    String price = list.get(2).strip();
+                    preparedStatement.setInt(3, Integer.parseInt(price));
 
-                    }
+                    preparedStatement.executeUpdate();
                 }
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %sn%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-                preparedStatement.setString(1, "T1");
-                preparedStatement.setString(2, "Монитор");
-                preparedStatement.setInt(3, 500);
+    private static void insertTableOrders(List<List<String>> list) throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
 
-                int row = preparedStatement.executeUpdate();
-                System.out.println(row);
+        try (Connection connection = DriverManager
+                .getConnection(connectionUrl, user, password)) {
+            try (PreparedStatement preparedStatement =
+                         connection.prepareStatement(SQL_INSERT_ORDERS)) {
+
+                for (List<String> stringList : list) {
+                    String ID = stringList.get(0).strip();
+                    preparedStatement.setInt(1, Integer.parseInt(ID));
+                    preparedStatement.setString(2, stringList.get(1));
+                    preparedStatement.setString(3, stringList.get(2));
+
+                    preparedStatement.executeUpdate();
+                }
             }
         } catch (SQLException e) {
             System.err.format("SQL State: %sn%s", e.getSQLState(), e.getMessage());
@@ -88,6 +141,7 @@ public class Table {
         }
     }
 
+
     private static void createTableProducts() throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         Connection connection = null;
@@ -97,20 +151,16 @@ public class Table {
                     .getConnection(connectionUrl, user, password);
             stmt = connection.createStatement();
             String sql = "CREATE TABLE products " +
-//                    "(id INTEGER not NULL, " +
                     " (arcticle VARCHAR(25) NOT NULL UNIQUE , " +
                     " title VARCHAR(100) UNIQUE , " +
                     " price INTEGER UNIQUE) ";
-//                    " PRIMARY KEY ( id ))";
             stmt.executeUpdate(sql);
         } finally {
-            //finally block used to close resources
             try {
                 if (stmt != null)
                     connection.close();
             } catch (SQLException se) {
-            }// do nothing
-            try {
+            } try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException se) {
@@ -148,131 +198,4 @@ public class Table {
             }
         }
     }
-
-//    private static void test() throws ClassNotFoundException, SQLException {
-//        //STEP 2: Register JDBC driver
-//        Connection conn = null;
-//        Statement stmt = null;
-//
-//        String connectionUrl = "jdbc:h2:/home/kirill/h2/db/test";
-//        String user = "sa";
-//        String password = "sa";
-//        try {
-//            Class.forName("org.h2.Driver");
-//
-//
-//            //STEP 3: Open a connection
-//            System.out.println("Connecting to a selected database...");
-//            conn = DriverManager.getConnection(connectionUrl, user, password);
-//            System.out.println("Connected database successfully...");
-//
-//            //STEP 4: Execute a query
-//            System.out.println("Creating table in given database...");
-//            stmt = conn.createStatement();
-//
-//            String sql = "CREATE TABLE REGISTRATION " +
-//                    "(id INTEGER not NULL, " +
-//                    " first VARCHAR(255), " +
-//                    " last VARCHAR(255), " +
-//                    " age INTEGER, " +
-//                    " PRIMARY KEY ( id ))";
-//
-//            stmt.executeUpdate(sql);
-//            System.out.println("Created table in given database...");
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-//    private static void creatTableProducts() throws ClassNotFoundException, SQLException {
-//        Class.forName("org.h2.Driver");
-//
-//        Statement stmt;
-//        try (Connection connection = DriverManager
-//                .getConnection(connectionUrl, user, password)) {
-//            stmt = connection.createStatement();
-//            String sql = "CREATE TABLE products " +
-//                    "(id INTEGER not NULL, " +
-//                    " arcticle VARCHAR(25) NOT NULL, " +
-//                    " title VARCHAR(100), " +
-//                    " price INTEGER, " +
-//                    " PRIMARY KEY ( id ))";
-//            stmt.executeUpdate(sql);
-//        }
-//    }
-//
-//    private static void createTableOrders() throws ClassNotFoundException, SQLException {
-//        Class.forName("org.h2.Driver");
-//
-//        Statement stmt;
-//        try (Connection connection = DriverManager
-//                .getConnection(connectionUrl, user, password)) {
-//            stmt = connection.createStatement();
-//            String sql = "CREATE TABLE orders " +
-//                    "(id INTEGER not NULL, " +
-//                    " name VARCHAR(50) NOT NULL, " +
-//                    " arcticle_products VARCHAR(25) NOT NULL)";
-//            stmt.executeUpdate(sql);
-//        }
-//    }
-//
-//    private static void test() throws ClassNotFoundException, SQLException {
-//        //STEP 2: Register JDBC driver
-//        Connection conn = null;
-//        Statement stmt = null;
-//
-//        String connectionUrl = "jdbc:h2:/home/kirill/h2/db/test";
-//        String user = "sa";
-//        String password = "sa";
-//        try {
-//            Class.forName("org.h2.Driver");
-//
-//
-//            //STEP 3: Open a connection
-//            System.out.println("Connecting to a selected database...");
-//            conn = DriverManager.getConnection(connectionUrl, user, password);
-//            System.out.println("Connected database successfully...");
-//
-//            //STEP 4: Execute a query
-//            System.out.println("Creating table in given database...");
-//            stmt = conn.createStatement();
-//
-//            String sql = "CREATE TABLE REGISTRATION " +
-//                    "(id INTEGER not NULL, " +
-//                    " first VARCHAR(255), " +
-//                    " last VARCHAR(255), " +
-//                    " age INTEGER, " +
-//                    " PRIMARY KEY ( id ))";
-//
-//            stmt.executeUpdate(sql);
-//            System.out.println("Created table in given database...");
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-//    public static void createTable() throws SQLException, ClassNotFoundException {
-//        // load JDBC driver class
-//        Class.forName("org.h2.Driver");
-//
-//        Statement stmt;
-//        // open connection as an auto-closeable resource
-//        try (Connection connection = DriverManager
-//                .getConnection(connectionUrl, user, password)) {
-//            stmt = connection.createStatement();
-//            // create and run statement
-////            String sql = "SELECT * FROM Sign s JOIN Figure f ON s.figure = f.id";
-//            String sql = "CREATE TABLE REGISTRATION " +
-//                    "(id INTEGER not NULL, " +
-//                    " first VARCHAR(255), " +
-//                    " last VARCHAR(255), " +
-//                    " age INTEGER, " +
-//                    " PRIMARY KEY ( id ))";
-//            stmt.executeUpdate(sql);
-//        }
-//    }
 }

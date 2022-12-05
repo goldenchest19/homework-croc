@@ -4,22 +4,29 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ReadData {
-    private static final String pathToCSV = "src/ru/croc/task17/data.csv";
-
-    public static List<List<String>> readCSVFile() throws IOException {
-        List<List<String>> list = new ArrayList<>();
-        BufferedReader csvReader = new BufferedReader(new FileReader(pathToCSV));
+    // считываем данные из файла, и записываем их в list и hashset
+    public static void readCSVFile(List<List<String>> list, HashSet<List<String>> hashSet, String path) throws IOException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(path));
         String row = "";
         while ((row = csvReader.readLine()) != null) {
             String[] data = row.split(",");
-            // do something with the data
+
             list.add(List.of(data));
+            initialUniqueProducts(hashSet, data);
         }
         csvReader.close();
-        return list;
+    }
+
+    private static void initialUniqueProducts(HashSet<List<String>> hashSet, String[] strings) {
+        List<String> list = new ArrayList<>();
+        for (int i = 2; i < strings.length; i++) {
+            list.add(strings[i]);
+        }
+        hashSet.add(list);
     }
 
 }
