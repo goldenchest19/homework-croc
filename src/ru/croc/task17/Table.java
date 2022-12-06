@@ -152,8 +152,8 @@ public class Table {
             stmt = connection.createStatement();
             String sql = "CREATE TABLE products " +
                     " (arcticle VARCHAR(25) NOT NULL UNIQUE , " +
-                    " title VARCHAR(100) UNIQUE , " +
-                    " price INTEGER UNIQUE) ";
+                    " title VARCHAR(100) , " +
+                    " price INTEGER) ";
             stmt.executeUpdate(sql);
         } finally {
             try {
