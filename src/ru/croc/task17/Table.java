@@ -9,14 +9,17 @@ public class Table {
     private static final String user = "sa";
     private static final String password = "sa";
     private static final String SQL_INSERT_PRODUCTS = "INSERT INTO PRODUCTS (ARCTICLE, TITLE, PRICE) VALUES (?,?,?)";
-    private static final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (ID, NAME, ARCTICLE_PRODUCTS) VALUES (?,?,?)";
+    private static final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (ID_NAME, ARCTICLE_PRODUCTS) VALUES (?,?)";
+    private static final String SQL_INSERT_USERS = "INSERT INTO USERS (ID, NAME) VALUES (?,?)";
 
     // управляющий метод
-    public static void addDataToDB(List<List<String>> list, HashSet<List<String>> hashSet) throws SQLException, ClassNotFoundException {
+    public static void addDataToDB(List<List<String>> list, HashSet<List<String>> uniqueProducts, HashSet<List<String>> uniqueUsers) throws SQLException, ClassNotFoundException {
         createTableProducts();
+        createTableUsers();
         createTableOrders();
-        insertTableProducts(hashSet);
+        insertTableProducts(uniqueProducts);
         printDBProducts();
+        insertTableUsers(uniqueUsers);
         insertTableOrders(list);
         printDBOrders();
     }
@@ -97,6 +100,29 @@ public class Table {
         }
     }
 
+    private static void insertTableUsers(HashSet<List<String>> hashSet) throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
+
+        try (Connection connection = DriverManager
+                .getConnection(connectionUrl, user, password)) {
+            try (PreparedStatement preparedStatement =
+                         connection.prepareStatement(SQL_INSERT_USERS)) {
+                for (List<String> list : hashSet) {
+
+                    String ID = list.get(0).strip();
+                    preparedStatement.setInt(1, Integer.parseInt(ID));
+                    preparedStatement.setString(2, list.get(1));
+
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %sn%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void insertTableOrders(List<List<String>> list) throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
 
@@ -108,8 +134,7 @@ public class Table {
                 for (List<String> stringList : list) {
                     String ID = stringList.get(0).strip();
                     preparedStatement.setInt(1, Integer.parseInt(ID));
-                    preparedStatement.setString(2, stringList.get(1));
-                    preparedStatement.setString(3, stringList.get(2));
+                    preparedStatement.setString(2, stringList.get(2));
 
                     preparedStatement.executeUpdate();
                 }
@@ -151,9 +176,35 @@ public class Table {
                     .getConnection(connectionUrl, user, password);
             stmt = connection.createStatement();
             String sql = "CREATE TABLE products " +
-                    " (arcticle VARCHAR(25) NOT NULL UNIQUE , " +
+                    " (arcticle VARCHAR(25) PRIMARY KEY NOT NULL UNIQUE , " +
                     " title VARCHAR(100) , " +
                     " price INTEGER) ";
+            stmt.executeUpdate(sql);
+        } finally {
+            try {
+                if (stmt != null)
+                    connection.close();
+            } catch (SQLException se) {
+            } try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
+    private static void createTableUsers() throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
+        Connection connection = null;
+        Statement stmt = null;
+        try {
+            connection = DriverManager
+                    .getConnection(connectionUrl, user, password);
+            stmt = connection.createStatement();
+            String sql = "CREATE TABLE USERS " +
+                    " (id INT PRIMARY KEY AUTO_INCREMENT , " +
+                    " name VARCHAR(30) not null) ";
             stmt.executeUpdate(sql);
         } finally {
             try {
@@ -178,10 +229,19 @@ public class Table {
             connection = DriverManager
                     .getConnection(connectionUrl, user, password);
             stmt = connection.createStatement();
-            String sql = "CREATE TABLE orders " +
-                    "(id INTEGER not NULL, " +
-                    " name VARCHAR(50) NOT NULL, " +
-                    " arcticle_products VARCHAR(25) NOT NULL)";
+//            String sql = "CREATE TABLE orders " +
+//                    "(id INTEGER not NULL, " +
+//                    " name VARCHAR(50) NOT NULL, " +
+//                    " arcticle_products VARCHAR(25) NOT NULL," +
+//                    "FOREIGN KEY (arcticle_products) REFERENCES PRODUCTS (arcticle) ON DELETE CASCADE )";
+
+            String sql = "CREATE TABLE ORDERS " +
+                    "(id INT PRIMARY KEY AUTO_INCREMENT, " +
+                    " id_name INTEGER REFERENCES USERS (id), " +
+                    " arcticle_products VARCHAR(25) NOT NULL," +
+                    "FOREIGN KEY (arcticle_products) REFERENCES PRODUCTS (arcticle) ON DELETE CASCADE )";
+
+
             stmt.executeUpdate(sql);
         } finally {
             //finally block used to close resources
