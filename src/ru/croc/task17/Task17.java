@@ -12,10 +12,9 @@ public class Task17 {
         // Я заметил, что в занятие необходимо реализовать с помощью, командной строки
         // однако на моем компьютере ошибка компиляции при таком наборе, и поэтому я добавил возможность
         // ввода с помощью System.in
-        // src/ru/croc/task17/data.csv
 //        Scanner scanner = new Scanner(System.in);
 //        String pathToCSV = scanner.nextLine();
-//        String pathToCSV = args[0];
-        Order order = new Order("src/ru/croc/task17/data.csv");
+        String pathToCSV = args[0];
+        Order order = new Order(pathToCSV);
     }
 }
