@@ -3,7 +3,6 @@ package ru.croc.task18;
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 
 import java.sql.*;
-import java.util.List;
 
 public class WorkWithProduct {
 

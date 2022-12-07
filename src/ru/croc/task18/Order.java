@@ -1,21 +1,43 @@
 package ru.croc.task18;
+
+import java.util.List;
+
 public class Order{
-    private int idName;
-    private String articleProducts;
+    private int id;
+    private String userLogin;
 
-    public int getIdName() {
-        return idName;
+    private List<Product> products;
+
+    public Order() {
     }
 
-    public void setIdName(int idName) {
-        this.idName = idName;
+    public Order(int id, String userLogin, List<Product> products) {
+        this.id = id;
+        this.userLogin = userLogin;
+        this.products = products;
     }
 
-    public String getArticleProducts() {
-        return articleProducts;
+    public int getId() {
+        return id;
     }
 
-    public void setArticleProducts(String articleProducts) {
-        this.articleProducts = articleProducts;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

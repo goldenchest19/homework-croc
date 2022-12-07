@@ -11,10 +11,6 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String article) {
-        this.article = article;
-    }
-
     public Product() {
     }
 
