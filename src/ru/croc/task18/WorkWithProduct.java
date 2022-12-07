@@ -5,13 +5,12 @@ import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import java.sql.*;
 import java.util.List;
 
-public class WorkWithDB {
+public class WorkWithProduct {
 
     private static final String connectionUrl = "jdbc:h2:/home/kirill/h2/db/test";
     private static final String user = "sa";
     private static final String password = "sa";
     private static final String SQL_INSERT_PRODUCTS = "INSERT INTO PRODUCTS (ARCTICLE, TITLE, PRICE) VALUES (?,?,?)";
-    private static final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (ID, NAME, ARCTICLE_PRODUCTS) VALUES (?,?,?)";
 
     public static Product findProduct(String productCode) throws ClassNotFoundException, SQLException {
         Product product = new Product();
@@ -106,31 +105,5 @@ public class WorkWithDB {
                 statement.executeUpdate(sql);
             }
         }
-    }
-
-    public static Order createOrder(String userLogin, List<Product> products) throws ClassNotFoundException {
-        Class.forName("org.h2.Driver");
-
-        try (Connection connection = DriverManager
-                .getConnection(connectionUrl, user, password)) {
-
-            try (PreparedStatement preparedStatement =
-                         connection.prepareStatement(SQL_INSERT_ORDERS)) {
-
-                for (Product product : products) {
-                    preparedStatement.setString(1, "");
-                    preparedStatement.setString(2, product.getTitle());
-                    preparedStatement.setInt(3, product.getPrice());
-
-                    preparedStatement.executeUpdate();
-                }
-            }
-//            catch (JdbcSQLIntegrityConstraintViolationException exception) {
-//                System.err.println("Товар с данным артиклем уже создан");
-//            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
     }
 }

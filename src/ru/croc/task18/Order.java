@@ -1,23 +1,14 @@
 package ru.croc.task18;
 public class Order{
-    private int id;
-    private String name;
+    private int idName;
     private String articleProducts;
 
-    public int getId() {
-        return id;
+    public int getIdName() {
+        return idName;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setIdName(int idName) {
+        this.idName = idName;
     }
 
     public String getArticleProducts() {

@@ -5,6 +5,19 @@ public class Product {
     private String title;
     private int price;
 
+    public Product(String article, String title, int price) {
+        this.article = article;
+        this.title = title;
+        this.price = price;
+    }
+
+    public Product(String article) {
+        this.article = article;
+    }
+
+    public Product() {
+    }
+
     public String getArticle() {
         return article;
     }
