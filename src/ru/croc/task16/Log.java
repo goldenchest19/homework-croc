@@ -15,9 +15,6 @@ public class Log {
 
     @Override
     public String toString() {
-        return "Log{" +
-                "time=" + time +
-                ", log='" + log + '\'' +
-                '}';
+        return log;
     }
 }

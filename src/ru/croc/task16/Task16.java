@@ -7,8 +7,7 @@ import java.util.Scanner;
 
 public class Task16 {
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        String path = scanner.nextLine();
+        String path = args[0];
 
         ReadLog readLog = new ReadLog();
         List<Log> list = readLog.getLogs(path);
