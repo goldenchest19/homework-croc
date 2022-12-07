@@ -23,7 +23,7 @@ public class Task18 {
         List<Product> products = new ArrayList<>();
         products.add(new Product("Т4", "Блок питания", 200));
         products.add(new Product("Т4", "Блок питания", 200));
-        products.add(new Product("Т6", "беляши", 2281));
+        products.add(new Product("Т5", "Видеокарта", 15000));
 
         WorkWithOrder.createOrder("vasya",products);
     }
