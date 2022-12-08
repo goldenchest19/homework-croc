@@ -8,17 +8,35 @@ import java.util.HashSet;
 import java.util.List;
 
 public class ReadData {
-    // считываем данные из файла, и записываем их в list и hashset
-    public static void readCSVFile(List<List<String>> list, HashSet<List<String>> hashSet, String path) throws IOException {
+
+    public static List<List<String>> addOrders(String path) throws IOException {
         BufferedReader csvReader = new BufferedReader(new FileReader(path));
+        List<List<String>> list = new ArrayList<>();
         String row = "";
         while ((row = csvReader.readLine()) != null) {
             String[] data = row.split(",");
 
             list.add(List.of(data));
-            initialUniqueProducts(hashSet, data);
         }
         csvReader.close();
+        return list;
+    }
+
+    public static HashSet<List<String>> addUniqueProducts(String path) throws IOException {
+        BufferedReader csvReader = new BufferedReader(new FileReader(path));
+        HashSet<List<String>> hashSet = new HashSet<>();
+        String row = "";
+        while ((row = csvReader.readLine()) != null) {
+            String[] data = row.split(",");
+
+            List<String> list = new ArrayList<>();
+            for (int i = 2; i < data.length; i++) {
+                list.add(data[i]);
+            }
+            hashSet.add(list);
+        }
+        csvReader.close();
+        return hashSet;
     }
 
     private static void initialUniqueProducts(HashSet<List<String>> hashSet, String[] strings) {
@@ -28,5 +46,4 @@ public class ReadData {
         }
         hashSet.add(list);
     }
-
 }

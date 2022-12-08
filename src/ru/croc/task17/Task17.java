@@ -2,9 +2,6 @@ package ru.croc.task17;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 
 public class Task17 {
@@ -15,6 +12,7 @@ public class Task17 {
 //        Scanner scanner = new Scanner(System.in);
 //        String pathToCSV = scanner.nextLine();
         String pathToCSV = args[0];
-        Order order = new Order(pathToCSV);
+        ParseData parseData = new ParseData(pathToCSV);
+        parseData.parseDataToDB();
     }
 }

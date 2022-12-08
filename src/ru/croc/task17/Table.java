@@ -12,55 +12,11 @@ public class Table {
     private static final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (ID, NAME, ARCTICLE_PRODUCTS) VALUES (?,?,?)";
 
     // управляющий метод
-    public static void addDataToDB(List<List<String>> list, HashSet<List<String>> uniqueProducts) throws SQLException, ClassNotFoundException {
+    public Table(List<List<String>> list, HashSet<List<String>> uniqueProducts) throws SQLException, ClassNotFoundException {
         createTableProducts();
         createTableOrders();
         insertTableProducts(uniqueProducts);
-        printDBProducts();
         insertTableOrders(list);
-        printDBOrders();
-    }
-
-    /**
-     * Метод, который выводит данные из таблицы Products
-     *
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     */
-    private static void printDBProducts() throws ClassNotFoundException, SQLException {
-        Class.forName("org.h2.Driver");
-
-        try (Connection connection = DriverManager
-                .getConnection(connectionUrl, user, password)) {
-
-            String sql = "SELECT * FROM PRODUCTS";
-            try (Statement statement = connection.createStatement()) {
-                ResultSet resultSet = statement.executeQuery(sql);
-
-                printResultSet(resultSet);
-            }
-        }
-    }
-
-    /**
-     * Метод, который выводит данные из таблицы Orders
-     *
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     */
-    private static void printDBOrders() throws ClassNotFoundException, SQLException {
-        Class.forName("org.h2.Driver");
-
-        try (Connection connection = DriverManager
-                .getConnection(connectionUrl, user, password)) {
-
-            String sql = "SELECT * FROM ORDERS";
-            try (Statement statement = connection.createStatement()) {
-                ResultSet resultSet = statement.executeQuery(sql);
-
-                printResultSet(resultSet);
-            }
-        }
     }
 
     /**
@@ -118,27 +74,6 @@ public class Table {
         }
     }
 
-    private static void printResultSet(ResultSet resultSet) throws SQLException {
-        ResultSetMetaData meta = resultSet.getMetaData();
-        int numColumns = meta.getColumnCount();
-        for (int i = 0; i < numColumns; i++) {
-            if (i > 0)
-                System.out.print(", ");
-            System.out.print(meta.getColumnName(i + 1));
-        }
-        System.out.println();
-        System.out.println("---");
-        while (resultSet.next()) {
-            for (int i = 0; i < numColumns; i++) {
-                if (i > 0)
-                    System.out.print(", ");
-                System.out.print(resultSet.getString(i + 1));
-            }
-            System.out.println();
-        }
-    }
-
-
     private static void createTableProducts() throws ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver");
         Connection connection = null;
@@ -157,7 +92,8 @@ public class Table {
                 if (stmt != null)
                     connection.close();
             } catch (SQLException se) {
-            } try {
+            }
+            try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException se) {
