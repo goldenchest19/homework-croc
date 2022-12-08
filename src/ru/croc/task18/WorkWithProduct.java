@@ -60,6 +60,7 @@ public class WorkWithProduct {
     }
 
     public static Product updateProduct(Product product) throws SQLException, ClassNotFoundException {
+        Class.forName("org.h2.Driver");
         String article = product.getArticle();
 
         if (findProduct(article) == null) {
@@ -67,9 +68,6 @@ public class WorkWithProduct {
             return null;
         }
 
-        Class.forName("org.h2.Driver");
-
-        // open connection as an auto-closeable resource
         try (Connection connection = DriverManager
                 .getConnection(connectionUrl, user, password)) {
 
