@@ -11,7 +11,7 @@ public class Table {
     private static final String SQL_INSERT_PRODUCTS = "INSERT INTO PRODUCTS (ARCTICLE, TITLE, PRICE) VALUES (?,?,?)";
     private static final String SQL_INSERT_ORDERS = "INSERT INTO ORDERS (ID, NAME, ARCTICLE_PRODUCTS) VALUES (?,?,?)";
 
-    // управляющий метод
+
     public Table(List<List<String>> list, HashSet<List<String>> uniqueProducts) throws SQLException, ClassNotFoundException {
         createTableProducts();
         createTableOrders();
