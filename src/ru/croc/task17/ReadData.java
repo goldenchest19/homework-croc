@@ -38,12 +38,4 @@ public class ReadData {
         csvReader.close();
         return hashSet;
     }
-
-    private static void initialUniqueProducts(HashSet<List<String>> hashSet, String[] strings) {
-        List<String> list = new ArrayList<>();
-        for (int i = 2; i < strings.length; i++) {
-            list.add(strings[i]);
-        }
-        hashSet.add(list);
-    }
 }

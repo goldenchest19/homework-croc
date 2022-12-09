@@ -9,12 +9,12 @@ public class ParseData {
     private List<List<String>> orders;
     private HashSet<List<String>> uniqueProducts;
 
-    public ParseData(String path) throws IOException, SQLException, ClassNotFoundException {
+    public ParseData(String path) throws IOException {
         this.orders = ReadData.addOrders(path);
         this.uniqueProducts = ReadData.addUniqueProducts(path);
     }
 
     public void parseDataToDB() throws SQLException, ClassNotFoundException {
-        Table table = new Table(orders, uniqueProducts);
+        new Table(orders, uniqueProducts);
     }
 }
